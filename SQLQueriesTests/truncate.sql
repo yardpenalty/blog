@@ -1,0 +1,1 @@
+TRUNCATE TABLE Blog.[dbo].Comment;

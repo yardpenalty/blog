@@ -1,0 +1,13 @@
+﻿@model BlogSite.Models.Category
+@{
+    Layout = null;
+}
+    <div class="editor-label">
+            @Html.LabelFor(model => model.CategoryName, "Category")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("CategoryId", String.Empty)
+            @Html.ValidationMessageFor(model => model.CategoryId)
+        </div>
+
+    <input type="button" value="Add Category"  />

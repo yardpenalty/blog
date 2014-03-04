@@ -1,0 +1,29 @@
+﻿@using BlogSite.Helpers;
+
+<div class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <!--drops-down navbar when resize-->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="float-left">
+                <p class="site-title"><a href="@Url.Action("Index", "Home", new { @class = "navbar-brand" })"><img id="yard" src="../../../Images/logo.jpg" alt="logo" height="37" width="150" /></a></p>
+            </div>
+
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                @Html.MenuItem("Articles", "Index", "Home")
+                @Html.MenuItem("Questions", "Index", "Question")
+                @Html.MenuItem("Reviews", "Index", "Reviews")
+                @Html.MenuItem("Ranks", "Index", "Rank")
+                @Html.Partial("_LoginPartial")
+            </ul>
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - Yardpenalty.com</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+        @Styles.Render("~/Content/css")
+        @*<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>*@
+        @* See this for dynamic meta content, also see schema.org-> http://stackoverflow.com/questions/7568911/meta-tag-in-asp-net-mvc-3*@
+        @this.RenderSection("MetaContent", false)
+         
+</head>
+<body>
+    
+    @Html.Partial("~/Views/Shared/_HeaderPartial.cshtml")
+    @using BlogSite.Resources;
+    @RenderSection("featured", required: false)
+    <section class="main-content clear-fix story">
+        <article>
+
+            @RenderBody()
+        
+                <!-- first adsense -->
+                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <ins class="adsbygoogle"
+                     data-ad-client="ca-pub-6105068078960888"
+                     data-ad-slot="9994355787"></ins> 
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+          </article>
+        <aside>
+            @{Html.RenderPartial("~/Views/Shared/_MenuPartial.cshtml");}
+        </aside>
+        
+    </section>
+    <footer>
+        @{Html.RenderPartial("~/Views/Shared/_FooterPartial.cshtml");}
+    </footer>
+    
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+  
+</body>
+</html>

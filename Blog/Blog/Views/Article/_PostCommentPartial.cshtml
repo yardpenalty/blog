@@ -1,0 +1,11 @@
+﻿@model BlogSite.Models.Comment
+
+<form method="post" id="commentForm" action="@Url.Action("AddComment")">
+    <div class="post-area">
+        @Html.TextArea("Comment", new { })
+    </div>
+    <br />
+    <div id="post-info">
+        <input type="submit" value="Post" title="Post" class="post-button" />
+    </div>
+</form> 

@@ -1,0 +1,36 @@
+﻿@model BlogSite.Models.Comment
+<div id="post-box">
+    @using (Ajax.BeginForm("Post", "Article", new AjaxOptions()
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "comments-partial",
+                            LoadingElementId = "splash",
+                            LoadingElementDuration = 30000,
+                            InsertionMode = InsertionMode.Replace,
+                            OnBegin = "OnBegin"
+                        }))
+    {
+        @Html.ValidationSummary(true, "Post was unsuccessful. Please correct try again.")
+        @Html.HiddenFor(model => model.ArticleId)
+        @Html.HiddenFor(model => model.ParentCommentId)
+        @Html.HiddenFor(model => model.isRoot)
+        @Html.HiddenFor(model => model.isFinalized)
+        @Html.HiddenFor(model => model.Votes)
+        <div class="post-area">
+            @Html.TextAreaFor(m => m.Content, new { @class = "autosize", @name = "comment", @placeholder = "Post a comment here...", @onkeyup = "$.comment(this, '#post-box .replyNum')" })
+        </div>
+        <div class="post-info">
+
+            <span class="replyNum">500 chars left...   <span>@Html.ValidationMessageFor(m => m.Content)</span></span>
+            <input type="submit" value="Post" class="post-button" />
+        </div>
+
+    }
+    </div>
+    <div id="splash" style="display: none;"></div>
+    <script>
+
+        function OnBegin() {
+
+        }
+    </script>

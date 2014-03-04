@@ -1,0 +1,8 @@
+﻿@model BlogSite.ViewModels.ImageViewModel
+
+<fieldset><legend>Upload Image</legend>
+@using (Html.BeginForm("Upload", "Account", FormMethod.Post, new {enctype = "multipart/form-data"})){
+<input type="file" id="Picture" name="Picture" />
+<input type="submit" name="btnAdd" value="Add" />
+} 
+</fieldset>

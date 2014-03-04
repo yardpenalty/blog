@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+
+
+
+@section featured {
+    <section class="featured">
+    <div class="content-wrapper">
+        <hgroup class="title">
+            <h1>@ViewBag.Title.</h1>
+            <h2>@ViewBag.Message</h2>
+        </hgroup>
+
+        <p id="rData" style="position: relative; width: 100px; height: 50px; background-color: red;"></p>
+
+        <input type="button" id="showDialog" value="Show Dialog" />
+        <div id="dialog" style="display: none;">
+            Aliquam elementum ut? Tincidunt mattis in, ac ut, a cursus integer, habitasse? Elementum
+            proin? Sit amet et elementum pulvinar integer, non, tortor dis in. Pulvinar dictumst!
+            Turpis. Ultricies augue habitasse? Hac nunc integer risus enim ac? Ut nisi nisi
+            magna velit elementum diam auctor purus et amet a!
+            <br />
+            <input type="button" id="delete" value="Update Array" />
+        </div>
+
+        <script type="text/javascript">
+          
+                var array = new Array();
+                window.onbeforeunload = $(function () {
+                    $("#dialog").dialog({
+                        autoOpen: false,
+                        buttons: {
+                            "Cancel": function () { $(this).dialog("close"); },
+                            "Ok": function () { $(this).dialog("close"); }
+                        },
+                        close: function () { alert(array); array = new Array(); },
+                        open: function () { alert(array); }
+                    });
+
+                    $("#showDialog").click(function () {
+                        $("#dialog").dialog("open");
+                    });
+
+                    $("#updateArray").click(function () {
+                        array = [1, 2, 3, 4, 5]
+                    });
+                });
+
+           
+        </script>
+
+
+
+        <input type="text" id="searchField" placeholder="Categories">
+        <a href="@Url.Action("Details", "Article", new { id = 6, title = BlogSite.Helpers.UrlEncoder.URLFriendly("returning a partial view using ajaxbeginform"), timestamp = "2014-01-04" })">Details 6</a>
+
+
+    </div>
+</section>
+
+
+
+}
+<h3>We suggest the following:</h3>
+<ol class="round">
+    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+</ol>
+@*@section scripts{
+
+    <script type="text/javascript">
+        $('#ButtonID').click(function () {
+            var url = "/Home/TellMeDate";
+            $.get(url, null, function (data) {
+                $("#rData").html(data);
+            });
+        })
+    </script>
+        }*@

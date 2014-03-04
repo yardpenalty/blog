@@ -1,0 +1,74 @@
+﻿@model BlogSite.Models.Comment
+
+<div class="reply-box">
+    @using (Ajax.BeginForm("Post", "Article", new AjaxOptions()
+                        {
+                            HttpMethod = "POST",
+                            UpdateTargetId = "comments-list",
+                            LoadingElementId = "reply_splash",
+                            OnBegin = "OnBegin",
+                            OnSuccess = "OnSuccess",
+                            OnFailure = "OnFailure",
+                            InsertionMode = InsertionMode.Replace
+                        }))
+    {
+        @Html.ValidationSummary(true, "Post was unsuccessful. Please correct try again.")
+        @Html.HiddenFor(model => model.ArticleId)
+        @Html.HiddenFor(model => model.ParentCommentId)
+        @Html.HiddenFor(model => model.isRoot)
+        @Html.HiddenFor(model => model.isFinalized)
+        @Html.HiddenFor(model => model.Votes)
+        <div class="post-area">
+            @Html.TextAreaFor(m => m.Content, new { @class = "bump", @name = "comment", @placeholder = "Post a reply here...", @onkeyup = "$.comment(this, '.reply-box .replyNum')" })
+           
+        </div>
+        <div class="post-info">
+            <span class="replyNum">500 chars left...   <span class="editor-label">@Html.ValidationMessageFor(m => m.Content)</span></span>
+            <input type="reset" value="Exit" class="reply-button" onclick="if (confirm('Are you sure you want to exit?')) cancelReply(); return false" />
+            <input type="submit" value="Reply" class="rep reply-button" />
+        </div>
+    }
+</div>
+<div id="reply_splash" style="display: none;"></div>
+<script type="text/javascript">
+    /* jQuery This Ajax function has the following purposes:
+    1: Toggle() the replies to open after reply and partial view render InsertionMode.Replace
+    2: Gets Post Box for top of page
+    3: Updates the count of Replies
+    4: Toggle() AddComment post box
+    */
+    $( "#reply-box" ).submit(function( event ) {
+        $(this).hide();
+    });
+   
+  
+    function cancelReply(){
+        $(".reply-area").fadeIn('slow');
+        $(".reply-box").fadeOut('slow');
+        $(".text-btn").show();
+        if($("#" + @Model.ParentCommentId + " .replies").text() === "- Hide Replies"){
+            $("." + @Model.ParentCommentId).show();
+        }
+    }
+    function OnSuccess() {
+        $("#" + @Model.ParentCommentId + " .replies").text("- Hide Replies").css("color", "red");
+        $("." + @Model.ParentCommentId).fadeIn('slow');
+        $("html, body").scrollTop($("." + @Model.ParentCommentId + ":last").offset().top - 164);
+        $(".mod-btn").hide();
+    }
+   
+  
+    //Exit to cancel Post
+    $(".rep").click( function () {
+        $("#reply-box .post-area textarea").fadeOut('fast');
+        $("#reply_splash").fadeIn('fast');
+        setTimeout(function() {
+            // WCatches up
+            $(".reply-area").show();
+            $(".text-btn").show();
+            $("#reply_splash").fadeOut('fast');
+        }, 5000);
+
+    });
+
+</script>

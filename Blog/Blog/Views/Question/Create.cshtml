@@ -1,0 +1,100 @@
+﻿@model BlogSite.Models.Question
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Question</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserId, "Blogger")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("UserId", String.Empty)
+            @Html.ValidationMessageFor(model => model.UserId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CategoryId, "Category")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("CategoryId", String.Empty)
+            @Html.ValidationMessageFor(model => model.CategoryId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Title)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Title)
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Content)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Content)
+            @Html.ValidationMessageFor(model => model.Content)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BadgeLevelEarned)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BadgeLevelEarned)
+            @Html.ValidationMessageFor(model => model.BadgeLevelEarned)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.isPublished)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.isPublished)
+            @Html.ValidationMessageFor(model => model.isPublished)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PublishDate)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PublishDate)
+            @Html.ValidationMessageFor(model => model.PublishDate)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.StarRating)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.StarRating)
+            @Html.ValidationMessageFor(model => model.StarRating)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ArticleRepPoints)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ArticleRepPoints)
+            @Html.ValidationMessageFor(model => model.ArticleRepPoints)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

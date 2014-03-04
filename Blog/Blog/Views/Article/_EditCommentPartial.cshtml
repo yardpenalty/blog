@@ -1,0 +1,25 @@
+﻿@model System.String
+
+
+
+
+
+
+<script>
+function OnSuccess(e) {
+        try {
+            var json = e.get_response().get_object();
+            $('#AjaxChangedOn').text(json.data);
+
+            alert(json.data);
+
+            alert(" details updated sucessfully");
+        }
+        catch (e) {
+            alert("Sorry, an error occured while processing your request");
+        }
+    }
+    function Failed() {
+        alert("Sorry, an error occured while processing your request");
+    }
+    </script>

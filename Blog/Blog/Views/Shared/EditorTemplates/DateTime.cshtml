@@ -1,0 +1,27 @@
+﻿@model System.DateTime?
+@{
+    Layout = null;
+}
+@{
+    ViewData["type"] = "datetime";
+}
+
+<div class="editor-label">
+    @Html.Label("")
+</div>
+<div class="editor-field">
+   @Html.TextBox("", (Model.HasValue ? Model.Value.ToShortDateString() : string.Empty), new { @class = "datePicker" })
+</div>
+
+@*
+    <!--use with jQuery datepicker /calender//-->
+    <script>
+    $(function () {
+        $(".datePicker").datepicker({
+            showOn: "button",
+            buttonImage: "/content/themes/base/images/calendar.gif",
+            buttonImageOnly: true,
+            dateFormat: "dd/mm/yy"
+        });
+    });
+</script>*@

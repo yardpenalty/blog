@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!--Account/Index-->
+<div id="userCount"></div>
+<input type="button" id="btnId" value="submit" />
+
+<script type="text/javascript">
+    $("#btnId").click(function () {
+        var url = "/Home/ShowUsers";
+        $.get(url, null, function (data) {
+            $("#userCount").html(data);
+        });
+    })
+</script>

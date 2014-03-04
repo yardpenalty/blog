@@ -1,0 +1,168 @@
+﻿@model IEnumerable<BlogSite.Models.Comment>
+@using BlogSite.Helpers;
+
+@helper Truncate(string input, int length)
+{
+    if (input.Length <= length)
+    {
+        @input
+    }
+    else
+    {
+        @input.Substring(0, length)<text> ...more</text>
+    }
+}
+
+<ul id="comments-list">
+
+    @{
+
+        foreach (var comment in Model)
+        {
+            <!--Grabs Parent Comment and then all replies w/ParentCommentId b4 grabs new Parent Comment -->
+            if (comment.isRoot && comment.ParentCommentId == null)
+            {
+                <!-- Comment -->
+                int counter = 0; foreach (var c in Model) { if (c.ParentCommentId == comment.CommentId) { counter += 1; } }
+                <li id="@comment.CommentId" itemscope itemtype="http://schema.org/UserComments" class="comment-container" tabindex="@comment.CommentId">
+                    <div class="poster">
+                        <img src="../../..@comment.Commentor.ImageUrl" alt="@comment.Commentor.UserName" class="avatar" />
+                        <div class="name">
+                            @Html.ActionLink(comment.Commentor.UserName, "Index", "Article", new { username = comment.Commentor.UserName })
+                            <b> says:</b><br /><span class="date">@DateTimeDecoder.DateTimePicker(comment.Timestamp)</span>
+                           
+                            @if (comment.Commentor.UserId.Equals(WebSecurity.CurrentUserId))
+                            {
+                                if (counter == 0)
+                                {
+                                    <input class="del" type="button" value="" onclick="if (confirm('Are you sure you want to delete your comment?')) $.delPar(@comment.ArticleId, @comment.CommentId); return false" title="Delete your comment?" />
+                                    <input class="edit" type="button" value="" onclick="$.swap(@comment.CommentId)" title="Edit your comment?" />
+                                }
+                                else
+                                {
+                                    <input class="edit" type="button" value="" onclick="swap(@comment.CommentId)" title="Edit your comment?">
+                                }
+                            }
+                            
+                            @if (WebSecurity.HasUserId && !comment.UserId.Equals(WebSecurity.CurrentUserId)) { 
+                            <div class="unlike"></div>
+                            <div class="like"></div> 
+                            }
+                            @if(BlogSite.Models.NullUtility.HasAny(comment.Votes) && comment.Votes.Count() > 1){
+                            <div class="likes">(@comment.Votes.Count() likes)</div>
+                            }
+                        </div>
+                    </div>
+                    <textarea class="content-box" onkeyup='$.comment(this, ".replyNum")' readonly>@comment.Content</textarea>
+                    <div class="reply-area">
+                        <span class="replyNum bump" style="display:none;">500 chars left... </span>
+                        <button class="mod-btn push" onclick="$.cancelEdit(@comment.CommentId)" style="display: none;" title="Cancel edit of your comment?">Cancel</button>
+                        <button class="mod-btn" onclick="$.saveEdit(@comment.CommentId)" style="display: none;" title="Save your edited comment?">@BlogSite.Resources.Strings.SaveButton</button>
+
+                        @if (counter == 0)
+                        {
+                            <button class="text-btn" onclick="$.reply(@comment.ArticleId, @comment.CommentId)">Reply</button>
+                        }
+                        else
+                        {                           <!--CommentId == ParentCommentId -->
+                            <button class="text-btn" onclick="$.reply(@comment.ArticleId, @comment.CommentId)">Reply</button>
+                            <div class="replies" onclick="$.ToggleChildDivs(@comment.CommentId)">+ Expand Replies(@counter)</div>
+                        }
+                    </div>
+                    <hr />
+                </li>
+            }
+            else
+            {
+                    <!--Reply-->
+
+                <li id="@comment.CommentId" class="@comment.ParentCommentId reply" style="display: none;" itemscope itemtype="http://schema.org/UserComments" tabindex="@comment.CommentId">
+                    <div class="poster">
+                        <img src="../../..@comment.Commentor.ImageUrl" alt="@comment.Commentor.UserName" class="avatar" />
+                        <div class="name">
+                            @Html.ActionLink(comment.Commentor.UserName, "Index", "Article", new { username = comment.Commentor.UserName })
+                            <b> says:</b><br /><span class="date">@DateTimeDecoder.DateTimePicker(comment.Timestamp)</span>
+
+                            @if (comment.Commentor.UserId.Equals(WebSecurity.CurrentUserId))
+                            {
+
+                                <input class="del" type="button" value="" onclick="if (confirm('Are you sure you want to delete your comment?')) $.del(@comment.ArticleId, @comment.CommentId, @comment.ParentCommentId ); return false" title="Delete your comment?" />
+                                <input class="edit" type="button" value="" onclick="$.swap(@comment.CommentId)" title="Edit your comment?" />
+                            }
+                           
+                            @if (WebSecurity.HasUserId && !comment.UserId.Equals(WebSecurity.CurrentUserId))
+                            {
+                                <div class="unlike"></div>
+                                <div class="like"></div>
+                            }
+                            @if(BlogSite.Models.NullUtility.HasAny(comment.Votes)){
+                            <div class="likes">(@comment.Votes.Count() likes)</div>
+                            }
+                        </div>
+                    </div>
+                    <textarea class="content-box" onkeyup="$.comment(this, '.replyNum')" readonly>@comment.Content</textarea>
+                    <div class="reply-area">
+                        <span class="replyNum bump" style="display:none;">500 chars left... </span>
+                        <button class="mod-btn push" onclick="$.cancelEdit(@comment.CommentId)" style="display: none;" title="Cancel edit of your comment">Cancel</button>
+                        <button class="mod-btn push" onclick="$.saveEdit(@comment.CommentId)" style="display: none;" title="Save your edited comment?">@BlogSite.Resources.Strings.SaveButton</button>
+                    </div>
+
+                </li>
+            }
+
+        }
+    }
+
+</ul>
+    <script>
+      
+        //window.tHtml = '';
+
+        ////get the comment's content and swaps out the tHtml data with new
+        //function swap(cid) {
+        //    // save the html within the div
+        //    window.tHtml = $('#' + cid + " .content-box").html();
+        //    $('#' + cid + " .content-box").prop('readonly', false).css("background-color", "#f2eeee").hide().fadeIn('slow').focus();
+        //    $(".text-btn").hide();
+        //    $("#" + cid + " button.mod-btn").show();
+        //    $("#" + cid + " .replies").hide();
+        //    // show char count
+        //    $("#" + cid + " .replyNum").show();
+
+        //}
+
+        //function cancelEdit(cid) {
+        //    $('#' + cid + " .content-box").val(window.tHtml).hide().fadeIn('slow');
+        //    $('#' + cid + " .content-box").prop('readonly', 'readonly').css("background-color", "#fff");
+        //    $("#" + cid + " .mod-btn").hide();
+        //    $(".text-btn").show();
+        //    // show replies
+        //    $("#" + cid + " .replies").show();
+        //    // hide char count
+        //    $("#" + cid + " .replyNum").hide();
+        //}
+
+        //function saveEdit(cid) {
+        //    var content = $('#' + cid + " .content-box").val();
+        //    var url = "/Article/SaveEditByCommentId";
+        //    $.ajax({
+        //        url: url,
+        //        data: { 'Cid': cid, 'content': content },
+        //        type: "post",
+        //        cache: false,
+        //        success: function (savingStatus) {
+        //            $(".mod-btn").hide();
+        //            $(".text-btn").show();
+        //            $("#" + cid + " .content-box").val(content).css("background-color", "#fff").prop("readonly", "readonly").hide().fadeIn('slow');
+        //            // hide char count
+        //            $("#" + cid + " .replyNum").hide();
+        //            $("#" + cid + " .replies").show();
+
+        //        },
+        //        error: function (xhr, ajaxOptions, thrownError) {
+        //            $('#' + cid + " .replyNum").text("Error encountered while saving the comments.");
+        //        }
+
+        //    });
+        //}
+    </script>

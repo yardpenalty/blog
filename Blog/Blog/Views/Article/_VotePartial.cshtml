@@ -1,0 +1,21 @@
+﻿@model BlogSite.Models.Vote
+
+<script type="text/javascript">
+    $("#up").click(function(){
+        $.ajax({url:"demo_test.txt",success:function(result){
+            $("#upvote").html(result);
+        }});
+    });
+
+</script>
+
+<script type="text/javascript">
+    $("#down").click(function () {
+        $.ajax({
+            url: "demo_test.txt", success: function (result) {
+                $("#upvote").html(result);
+            }
+        });
+    });
+
+</script>

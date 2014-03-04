@@ -1,0 +1,7 @@
+﻿@model BlogSite.Models.DTO.ArticleDto
+
+@using (Html.BeginForm("Upload", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" id="Picture" name="Picture" />
+    <input type="submit" name="btnAdd" value="Add" />
+} 

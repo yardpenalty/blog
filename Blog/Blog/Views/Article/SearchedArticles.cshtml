@@ -1,0 +1,22 @@
+﻿@model IEnumerable<BlogSite.ViewModels.TitleViewModel>
+@*using BlogSite.Helper.TagHelper // display TagName using Helper???*@
+@helper Truncate(string input, int length)
+{
+    if (input.Length <= length) {
+    @input
+    } else {
+    @input.Substring(0, length)<text>...</text>
+    }
+}
+
+
+@{
+    ViewBag.Title = "_SearchedPartial";
+}
+@*<h2>@Model.Tag</h2>*@
+
+@foreach(var t in Model){
+<a href='@Url.Action("Details", new {id = t.ArticleId})'><h2>@t.Title</h2></a>
+<span>@Html.Encode(Truncate(t.PartialContent, 250))</span>
+}
+

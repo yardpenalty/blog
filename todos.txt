@@ -1,0 +1,17 @@
+TODOS: 
+
+View State, Session
+Search autofill searchBar
+Search Titles
+Pagination for search results
+bread crumb article >> category >> Tags
+Fix external user bindings so social network image is transferred to my db
+SHare posts to social network
+Check title to see if question has been asked
+ViewModel/Dictionary title, Truncate(partial content...),date, user, vote box, ... var title  Includes()...;
+Vote box
+tags... dynamically
+Number of page views
+last login
+create search algorithm by quicksorting Contains
+helper to take out html for partialContent TitleViewModel

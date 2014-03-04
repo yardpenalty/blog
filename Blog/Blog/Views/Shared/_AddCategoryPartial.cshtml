@@ -1,0 +1,16 @@
+﻿@model BlogSite.Models.Category
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("AddCategory", "ArticleController", FormMethod.Post))
+{
+    <div class="editor-label">
+            @Html.LabelFor(model => model.CategoryName, "Category")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CategoryName)
+            @Html.ValidationMessageFor(model => model.CategoryName)
+        </div>
+
+    <input type="submit" value="submit" />
+}
